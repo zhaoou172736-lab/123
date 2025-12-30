@@ -89,8 +89,8 @@
         <!-- Header Section -->
         <div class="text-center mb-10">
             <h1 class="text-3xl md:text-4xl font-extrabold text-stone-900 mb-4">
-                上传视频，AI <span class="text-orange-600">全自动拆解</span> 逻辑
-            </h1>
+                        上传视频，<span class="text-orange-600">All in AI</span> 全智能拆解逻辑
+                    </h1>
             <!-- 给这个 P 标签加了 ID，用于后续动态替换内容 -->
             <p id="header-intro" class="text-lg text-stone-600 max-w-2xl mx-auto transition-all duration-500 ease-in-out">
                 直接上传爆款视频文件，AI 将自动分析并揭秘其<span class="font-bold text-stone-700">“画面、脚本与情绪”</span>背后的流量密码。
@@ -150,7 +150,7 @@
                     <div class="space-y-3 pt-4 border-t border-stone-100 mt-2">
                         <div class="flex">
                             <button onclick="callAnalysis()" class="flex-1 bg-gradient-to-r from-stone-800 to-stone-900 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-3 px-4 rounded-xl transition duration-200 flex items-center justify-center shadow-lg shadow-orange-500/10 group">
-                                <span class="mr-2 group-hover:scale-110 transition-transform">✨</span> AI 视频深度拆解
+                                <span class="mr-2 group-hover:scale-110 transition-transform">✨</span> All in AI 视频深度拆解
                             </button>
                         </div>
                     </div>
@@ -184,7 +184,7 @@
                     <!-- 顶部功能标识 -->
                     <h3 class="text-sm font-bold text-orange-600 uppercase tracking-wide mb-4 flex items-center">
                         <svg class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/></svg>
-                        AI 反推核心选题
+                        All in AI 反推核心选题
                     </h3>
                     
                     <!-- 垂直布局 -->
@@ -195,7 +195,7 @@
                             <div class="flex items-center mb-2">
                                 <span class="bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full flex items-center">
                                     <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                                    爆款星标
+                                    爆款标签
                                 </span>
                             </div>
                             
@@ -225,12 +225,12 @@
                 </div>
             </div>
 
-            <!-- 像素级脚本拆解 Section -->
+            <!-- All in AI 像素级脚本拆解 Section -->
             <div id="pixelScriptSection" class="bg-white p-6 rounded-2xl shadow-lg border border-stone-200 relative overflow-hidden transition-all duration-500">
                 <!-- 顶部功能标识 -->
                 <h3 class="text-base font-bold text-orange-600 uppercase tracking-wide mb-4 flex items-center">
                     <svg class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
-                    像素级脚本拆解
+                    All in AI 像素级脚本拆解
                 </h3>
                 
                 <!-- 板块简介 -->
@@ -249,7 +249,7 @@
                         </div>
                         <div class="text-center">
                             <p class="font-medium mb-1">等待 AI 分析...</p>
-                            <p class="text-xs max-w-[200px] opacity-70">点击上方“AI 视频深度拆解”按钮，生成像素级脚本拆解。</p>
+                            <p class="text-xs max-w-[200px] opacity-70">点击上方“All in AI 视频深度拆解”按钮，生成像素级脚本拆解。</p>
                         </div>
                     </div>
                 </div>
@@ -261,7 +261,7 @@
                 <div class="flex justify-between items-center mb-3">
                     <label class="block text-base font-bold text-orange-400 flex items-center">
                         <span class="bg-orange-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs mr-2">2</span>
-                        <span id="outputTitle">AI 分析报告</span>
+                        <span id="outputTitle">All in AI 分析报告</span>
                     </label>
                     <div class="flex gap-2">
                         <button onclick="clearOutput()" class="text-xs bg-stone-800 hover:bg-stone-700 text-stone-400 px-3 py-1.5 rounded-lg transition border border-stone-700">
@@ -286,7 +286,7 @@
                             </div>
                             <div class="text-center">
                                 <p class="font-medium mb-1">等待 AI 分析...</p>
-                                <p class="text-xs max-w-[200px] opacity-70">点击上方“AI 视频深度拆解”按钮，生成可视化数据报告。</p>
+                                <p class="text-xs max-w-[200px] opacity-70">点击上方“All in AI 视频深度拆解”按钮，生成可视化数据报告。</p>
                             </div>
                         </div>
                     </div>
@@ -581,11 +581,11 @@
             // 升级了 Prompt：
             // 1. 要求 AI 直接输出 HTML 结构 (Tailwind CSS)，而不是 Markdown。
             // 2. 增加 META 数据指令：要求在开头输出 JSON 格式的核心选题和标签
-            const systemPrompt = `你是一位拥有10年经验的短视频运营专家和爆款操盘手。请仔细观看这段视频，进行“像素级”的深度拆解。
+            const systemPrompt = `你是一位拥有10年经验的短视频运营专家和爆款操盘手，严格遵循"All in AI"核心原则，所有分析和生成内容完全依赖AI技术。请仔细观看这段视频，进行深度拆解。
 
             你的任务分为两部分：
             
-            【第一部分：AI 算法生成元数据 (Hidden JSON)】
+            【第一部分：All in AI 生成元数据 (Hidden JSON)】
             请先在思维沙箱中进行以下分析，然后生成 JSON 数据：
             1. **目标人群分析**：识别视频针对的核心人群（如：创业小白、精致宝妈、职场新人）。
             2. **关键词提取**：提取视频的核心关键词（如：长期主义、认知觉醒、搞钱）。
@@ -595,14 +595,14 @@
                - 运用 **"反差设计"** (对立概念制造冲突)
                - 运用 **"场景化描述"** (增强代入感)
                *综合以上技巧，生成一个最具吸引力的“核心选题标题”*。
-            4. **爆款星标标签生成**：
+            4. **爆款标签生成**：
                - **领域标签** (创业思维)
                - **情绪标签** (认知觉醒、人性洞察)
                - **结果导向标签** (搞钱、涨粉)
                - **垂直细分标签** (高端家政)
                *按权重排序，选出最重要的 4-6 个标签*。
 
-            【第二部分：可视化分析报告 (HTML)】
+            【第二部分：All in AI 可视化分析报告 (HTML)】
             生成详细的拆解报告。
 
             ⚠️【输出格式严格要求】：
@@ -615,16 +615,16 @@
 
             第3行开始：直接输出 HTML 代码（不要 markdown 标记）：
             <div class="space-y-6">
-               <!-- 模块1: 仪表盘 -->
+               <!-- All in AI 仪表盘 -->
                <div class="grid grid-cols-2 gap-4">
                   <div class="bg-stone-700/50 p-4 rounded-xl border border-stone-600">
-                     <div class="text-xs text-stone-400 mb-1">完播率预估</div>
+                     <div class="text-xs text-stone-400 mb-1">AI 完播率预估</div>
                      <div class="text-2xl font-bold text-white flex items-center gap-2">
                         [S/A/B级] <span class="text-xs px-2 py-1 rounded bg-stone-600 font-normal">理由简述</span>
                      </div>
                   </div>
                   <div class="bg-stone-700/50 p-4 rounded-xl border border-stone-600">
-                     <div class="text-xs text-stone-400 mb-1">情感共鸣指数</div>
+                     <div class="text-xs text-stone-400 mb-1">AI 情感共鸣指数</div>
                      <div class="flex items-center gap-2">
                         <div class="flex-grow h-2 bg-stone-600 rounded-full overflow-hidden">
                            <div class="h-full bg-orange-500" style="width: [分数*10]%"></div>
@@ -635,52 +635,52 @@
                   </div>
                </div>
 
-               <!-- 模块2: 黄金3秒 Hook -->
+               <!-- All in AI 黄金3秒 Hook -->
                <div class="bg-stone-800 p-5 rounded-xl border-l-4 border-orange-500 shadow-md">
-                  <h3 class="text-sm font-bold text-orange-400 uppercase mb-3 tracking-wider">⚡️ 黄金前3秒 (Hook)</h3>
+                  <h3 class="text-sm font-bold text-orange-400 uppercase mb-3 tracking-wider">⚡️ AI 黄金前3秒 (Hook)</h3>
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                      <div>
-                        <span class="text-xs bg-stone-700 text-stone-300 px-2 py-0.5 rounded">👀 视觉 Hook</span>
-                        <p class="text-sm text-stone-200 mt-2 leading-relaxed">[内容]</p>
+                        <span class="text-xs bg-stone-700 text-stone-300 px-2 py-0.5 rounded">👀 AI 视觉 Hook</span>
+                        <p class="text-sm text-stone-200 mt-2 leading-relaxed">AI生成的视觉Hook分析</p>
                      </div>
                      <div>
-                        <span class="text-xs bg-stone-700 text-stone-300 px-2 py-0.5 rounded">👂 听觉/文案</span>
-                        <p class="text-sm text-stone-200 mt-2 leading-relaxed">[内容]</p>
+                        <span class="text-xs bg-stone-700 text-stone-300 px-2 py-0.5 rounded">👂 AI 听觉/文案</span>
+                        <p class="text-sm text-stone-200 mt-2 leading-relaxed">AI生成的听觉/文案分析</p>
                      </div>
                   </div>
                </div>
 
-               <!-- 模块3: 脚本还原 -->
+               <!-- All in AI 脚本还原 -->
                <div class="space-y-3">
-                  <h3 class="text-sm font-bold text-stone-400 uppercase tracking-wider">📝 脚本核心</h3>
+                  <h3 class="text-sm font-bold text-stone-400 uppercase tracking-wider">📝 AI 脚本核心</h3>
                   <div class="bg-stone-700/30 p-4 rounded-lg text-sm text-stone-300 italic border-l-2 border-stone-600">
-                     “[视频核心金句或神回复]”
+                     “AI生成的视频核心金句或神回复”
                   </div>
-                  <p class="text-sm text-stone-400">[一句话故事梗概]</p>
+                  <p class="text-sm text-stone-400">AI生成的一句话故事梗概</p>
                </div>
 
-               <!-- 模块4: 结构复盘 (Timeline) -->
+               <!-- All in AI 结构复盘 (Timeline) -->
                <div class="relative pl-4 border-l border-stone-700 space-y-6 my-4">
                   <div class="relative">
                      <div class="absolute -left-[21px] top-1 w-3 h-3 bg-green-500 rounded-full border-2 border-stone-900"></div>
-                     <div class="text-xs text-green-400 font-bold mb-1">OPENING (0-5s)</div>
-                     <div class="text-sm text-stone-300">[开场策略]</div>
+                     <div class="text-xs text-green-400 font-bold mb-1">AI OPENING (0-5s)</div>
+                     <div class="text-sm text-stone-300">AI生成的开场策略</div>
                   </div>
                   <div class="relative">
                      <div class="absolute -left-[21px] top-1 w-3 h-3 bg-blue-500 rounded-full border-2 border-stone-900"></div>
-                     <div class="text-xs text-blue-400 font-bold mb-1">MIDDLE</div>
-                     <div class="text-sm text-stone-300">[冲突/干货/反转]</div>
+                     <div class="text-xs text-blue-400 font-bold mb-1">AI MIDDLE</div>
+                     <div class="text-sm text-stone-300">AI生成的冲突/干货/反转分析</div>
                   </div>
                   <div class="relative">
                      <div class="absolute -left-[21px] top-1 w-3 h-3 bg-red-500 rounded-full border-2 border-stone-900"></div>
-                     <div class="text-xs text-red-400 font-bold mb-1">ENDING</div>
-                     <div class="text-sm text-stone-300">[结尾升华/CTA]</div>
+                     <div class="text-xs text-red-400 font-bold mb-1">AI ENDING</div>
+                     <div class="text-sm text-stone-300">AI生成的结尾升华/CTA分析</div>
                   </div>
                </div>
 
-               <!-- 模块5: 流量密码 -->
+               <!-- All in AI 流量密码 -->
                <div class="bg-gradient-to-r from-orange-900/30 to-stone-800 p-5 rounded-xl border border-orange-500/30">
-                  <h3 class="text-sm font-bold text-orange-300 uppercase mb-2">💡 抄作业建议</h3>
+                  <h3 class="text-sm font-bold text-orange-300 uppercase mb-2">💡 All in AI 流量密码</h3>
                   <ul class="text-sm text-stone-300 space-y-2 list-disc list-inside">
                      <li><strong>底层逻辑：</strong> [内容]</li>
                      <li><strong>灵魂元素：</strong> [内容]</li>
@@ -690,7 +690,7 @@
             </div>`;
 
             callAIService(systemPrompt, "正在运用算法反推核心选题与标签...");
-            document.getElementById('outputTitle').innerText = "AI 深度拆解报告";
+            document.getElementById('outputTitle').innerText = "All in AI 深度拆解报告";
             
             // 设置 UI 状态为“正在分析”
             document.getElementById('metaAudience').innerHTML = '<span class="text-orange-500 animate-pulse">分析中...</span>';
@@ -1055,7 +1055,7 @@
                     </div>
                     <div class="text-center">
                         <p class="font-medium mb-1">等待 AI 分析...</p>
-                        <p class="text-xs max-w-[200px] opacity-70">点击左侧“AI 视频深度拆解”按钮，生成可视化数据报告。</p>
+                        <p class="text-xs max-w-[200px] opacity-70">点击左侧“All in AI 视频深度拆解”按钮，生成可视化数据报告。</p>
                     </div>
                 </div>`;
         }
@@ -1087,7 +1087,7 @@
                     </div>
                     <div class="text-center">
                         <p class="font-medium mb-1">等待 AI 分析...</p>
-                        <p class="text-xs max-w-[200px] opacity-70">点击上方“AI 视频深度拆解”按钮，生成像素级脚本拆解。</p>
+                        <p class="text-xs max-w-[200px] opacity-70">点击上方“All in AI 视频深度拆解”按钮，生成像素级脚本拆解。</p>
                     </div>
                 </div>`;
         }
