@@ -84,7 +84,7 @@
         </div>
     </nav>
 
-    <main class="flex-grow container mx-auto px-4 py-8 sm:px-6 lg:px-8 max-w-6xl flex flex-col justify-center">
+    <main class="flex-grow container mx-auto px-4 py-8 sm:px-6 lg:px-8 max-w-7xl flex flex-col justify-center">
         
         <!-- Header Section -->
         <div class="text-center mb-10">
@@ -99,7 +99,7 @@
 
         <!-- Tool Interface -->
         <!-- 布局修改：从 grid grid-cols-2 改为 flex flex-col，并移除固定高度 h-[650px] -->
-        <div class="flex flex-col gap-8 max-w-5xl mx-auto"> 
+        <div class="flex flex-col gap-8 w-full"> 
             
             <!-- Top Section: Input & Actions & META CARD -->
             <!-- 布局修改：改为 w-full -->
@@ -154,52 +154,102 @@
                             </button>
                         </div>
                     </div>
+                    
+                    <!-- Loading Indicator -->
+                    <div id="loadingIndicator" class="hidden mt-4 bg-stone-900/10 p-6 rounded-xl border border-stone-700/20">
+                        <div class="text-orange-500 flex flex-col items-center w-full text-center">
+                            
+                            <!-- 进度条组件 -->
+                            <div class="w-full mb-4">
+                                <div class="flex justify-between text-xs text-orange-400 mb-2 font-mono">
+                                    <span id="loadingStep">正在初始化...</span>
+                                    <span id="progressPercent">0%</span>
+                                </div>
+                                <div class="h-3 bg-stone-800/20 rounded-full overflow-hidden border border-stone-700/30 shadow-inner relative">
+                                    <div id="progressBar" class="h-full bg-gradient-to-r from-orange-700 via-orange-500 to-yellow-500 w-0 transition-all duration-300 ease-out relative">
+                                        <div class="absolute inset-0 bg-white/20 w-full h-full animate-[shimmer_1s_infinite]" style="background-image: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); background-size: 50% 100%; background-repeat: no-repeat;"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <span class="font-bold text-lg text-stone-800 mb-1 animate-pulse">AI 正在观看视频...</span>
+                            <span id="loadingText" class="text-xs text-stone-500">正在连接大模型分析画面，请稍候...</span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- NEW SECTION: Meta Analysis Card (Always Visible) -->
                 <!-- 布局修改：改为 flex-1，使其与上传卡片并排显示（在中等屏幕以上），或者在小屏上堆叠 -->
-                <div id="metaAnalysisCard" class="bg-gradient-to-br from-white to-orange-50 p-6 rounded-2xl shadow-lg border border-orange-100 relative overflow-hidden transition-all duration-500 flex-1 min-h-[300px]">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-orange-200/20 rounded-full blur-2xl -mr-8 -mt-8"></div>
-                    
+                <div id="metaAnalysisCard" class="bg-white p-6 rounded-2xl shadow-lg border border-stone-200 relative overflow-hidden transition-all duration-500 flex-1 min-h-[300px] border-l-8 border-orange-500">
+                    <!-- 顶部功能标识 -->
                     <h3 class="text-sm font-bold text-orange-600 uppercase tracking-wide mb-4 flex items-center">
                         <svg class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/></svg>
                         AI 反推核心选题
                     </h3>
                     
-                    <!-- 动态内容容器 -->
-                    <div class="space-y-6">
-                        <!-- 新增：目标人群分析 -->
-                        <div class="flex items-start">
-                            <div class="flex-shrink-0 mt-0.5 mr-2 text-orange-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <div class="text-xs text-stone-400 mb-0.5">精准目标人群</div>
-                                <div id="metaAudience" class="text-sm font-medium text-stone-600">
-                                    <span class="text-stone-300 italic">等待分析...</span>
-                                </div>
-                            </div>
-                        </div>
-
+                    <!-- 垂直布局 -->
+                    <div class="space-y-4">
                         <!-- 核心选题 -->
                         <div>
-                            <div class="text-xs text-stone-400 mb-2">AI 生成爆款选题 (问题/痛点/反差)</div>
-                            <div id="metaTopic" class="text-xl font-bold text-stone-800 leading-tight p-3 bg-white/50 rounded-lg border border-orange-100">
+                            <!-- 星标标签 -->
+                            <div class="flex items-center mb-2">
+                                <span class="bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full flex items-center">
+                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    爆款星标
+                                </span>
+                            </div>
+                            
+                            <!-- 核心选题标题 -->
+                            <div id="metaTopic" class="text-xl font-bold text-black leading-tight">
                                 <!-- 默认状态文案 -->
                                 <span class="text-stone-400 font-normal italic text-sm">等待视频分析...</span>
                             </div>
                         </div>
                         
-                        <!-- 标签云 -->
+                        <!-- 主题标签组 -->
+                        <div id="metaTags" class="flex flex-wrap gap-2">
+                            <!-- 默认占位标签 -->
+                            <span class="bg-stone-100 text-stone-600 px-3 py-1.5 rounded-full text-xs">#等待分析</span>
+                            <span class="bg-stone-100 text-stone-600 px-3 py-1.5 rounded-full text-xs">#AI识别</span>
+                        </div>
+                        
+                        <!-- 目标人群 -->
                         <div>
-                            <div class="text-xs text-stone-400 mb-2">爆款星标标签 (领域/情绪/价值)</div>
-                            <div id="metaTags" class="flex flex-wrap gap-2">
-                                <!-- 默认占位标签 -->
-                                <span class="bg-stone-100 text-stone-300 px-2 py-1 rounded text-xs">#等待分析</span>
-                                <span class="bg-stone-100 text-stone-300 px-2 py-1 rounded text-xs">#AI识别</span>
+                            <div class="text-xs text-stone-400 mb-2 uppercase font-semibold">精准目标人群</div>
+                            <div id="metaAudience" class="flex flex-wrap gap-2">
+                                <!-- 默认状态文案 -->
+                                <span class="text-stone-300 italic text-sm">等待分析...</span>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 像素级脚本拆解 Section -->
+            <div id="pixelScriptSection" class="bg-white p-6 rounded-2xl shadow-lg border border-stone-200 relative overflow-hidden transition-all duration-500">
+                <!-- 顶部功能标识 -->
+                <h3 class="text-base font-bold text-orange-600 uppercase tracking-wide mb-4 flex items-center">
+                    <svg class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                    像素级脚本拆解
+                </h3>
+                
+                <!-- 板块简介 -->
+                <div class="text-sm text-stone-600 mb-6">
+                    精细化的视频内容分析方法，通过逐帧镜头、多维度的拆解，将爆款视频的成功要素转化为可复制的结构化数据。
+                </div>
+                
+                <!-- 脚本内容容器 -->
+                <div id="scriptOutput" class="bg-stone-50 p-4 rounded-xl border border-stone-200 min-h-[200px]">
+                    <!-- 默认占位内容 -->
+                    <div class="flex flex-col items-center justify-center h-full text-stone-500 space-y-4">
+                        <div class="w-16 h-16 bg-stone-100 rounded-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
+                        </div>
+                        <div class="text-center">
+                            <p class="font-medium mb-1">等待 AI 分析...</p>
+                            <p class="text-xs max-w-[200px] opacity-70">点击上方“AI 视频深度拆解”按钮，生成像素级脚本拆解。</p>
                         </div>
                     </div>
                 </div>
@@ -238,28 +288,6 @@
                                 <p class="font-medium mb-1">等待 AI 分析...</p>
                                 <p class="text-xs max-w-[200px] opacity-70">点击上方“AI 视频深度拆解”按钮，生成可视化数据报告。</p>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Loading Indicator -->
-                    <div id="loadingIndicator" class="hidden absolute inset-0 bg-stone-900/95 flex items-center justify-center backdrop-blur-sm z-20 rounded-xl">
-                        <div class="text-orange-500 flex flex-col items-center w-full max-w-sm px-8 text-center">
-                            
-                            <!-- 进度条组件 -->
-                            <div class="w-full mb-6">
-                                <div class="flex justify-between text-xs text-orange-400 mb-2 font-mono">
-                                    <span id="loadingStep">正在初始化...</span>
-                                    <span id="progressPercent">0%</span>
-                                </div>
-                                <div class="h-3 bg-stone-800 rounded-full overflow-hidden border border-stone-700 shadow-inner relative">
-                                    <div id="progressBar" class="h-full bg-gradient-to-r from-orange-700 via-orange-500 to-yellow-500 w-0 transition-all duration-300 ease-out relative">
-                                        <div class="absolute inset-0 bg-white/20 w-full h-full animate-[shimmer_1s_infinite]" style="background-image: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); background-size: 50% 100%; background-repeat: no-repeat;"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <span class="font-bold text-lg text-white mb-1 animate-pulse">AI 正在观看视频...</span>
-                            <span id="loadingText" class="text-xs text-stone-400">正在连接大模型分析画面，请稍候...</span>
                         </div>
                     </div>
                 </div>
@@ -476,15 +504,20 @@
             const percentText = document.getElementById('progressPercent');
             const stepText = document.getElementById('loadingStep');
             let width = 0;
+            let progressIterations = 0;
+            const maxIterations = 300; // 设置超时，防止无限期等待
             
             // 重置
             bar.style.width = '0%';
             percentText.innerText = '0%';
             stepText.innerText = '开始连接...';
+            stepText.classList.remove('animate-pulse');
             
             if (progressInterval) clearInterval(progressInterval);
             
             progressInterval = setInterval(() => {
+                progressIterations++;
+                
                 // 模拟进度增长曲线
                 if (width < 30) {
                     width += Math.random() * 3; // 前期快
@@ -492,18 +525,31 @@
                 } else if (width < 70) {
                     width += Math.random() * 0.5; // 中期慢 (思考中)
                     stepText.innerText = 'AI 正在深度思考...';
-                } else if (width < 95) {
-                    width += Math.random() * 0.1; // 后期极慢 (等待响应)
+                } else if (width < 99) {
+                    width += Math.random() * 0.05; // 后期极慢 (等待响应)
                     stepText.innerText = '正在生成报告...';
-                } else {
-                    // 🌟 修复: 当达到 95% 时，显式更新文字，告诉用户正在等待，而不是卡死
-                    width = 95;
+                } else if (width < 100) {
+                    width += Math.random() * 0.01; // 最后阶段极慢，接近100%
                     stepText.innerText = '等待服务端回传 (视频分析较慢，请稍候)...';
                     stepText.classList.add('animate-pulse'); // 增加呼吸效果提示正在运行
+                } else {
+                    // 如果达到100%但finishProgress还没被调用，说明可能出现了问题
+                    stepText.innerText = '分析可能超时，请检查网络连接或API配置...';
+                    stepText.classList.add('animate-pulse');
                 }
+                
+                // 确保width不超过100%
+                width = Math.min(width, 100);
                 
                 bar.style.width = width + '%';
                 percentText.innerText = Math.floor(width) + '%';
+                
+                // 超时处理
+                if (progressIterations > maxIterations) {
+                    clearInterval(progressInterval);
+                    stepText.innerText = '分析超时，请重试或检查API配置...';
+                    stepText.classList.add('animate-pulse');
+                }
             }, 200);
         }
 
@@ -730,10 +776,38 @@
         // 🌟 渲染 HTML 报告
         function renderReport(htmlContent) {
             const outputDiv = document.getElementById('aiOutput');
+            const scriptOutputDiv = document.getElementById('scriptOutput');
             
             // 简单清理可能存在的 markdown 标记 (以防万一)
             let cleanHtml = htmlContent.replace(/```html/g, '').replace(/```/g, '');
             
+            // 提取像素级脚本拆解内容
+            const scriptRegex = /<div[^>]*>.*?像素级脚本拆解.*?<\/div>/s;
+            const scriptMatch = cleanHtml.match(scriptRegex);
+            
+            if (scriptMatch && scriptMatch[0]) {
+                // 显示脚本内容
+                scriptOutputDiv.innerHTML = `<div class="report-fade-in">${scriptMatch[0]}</div>`;
+                // 过滤掉AI分析报告中的脚本内容
+                cleanHtml = cleanHtml.replace(scriptRegex, '');
+            } else {
+                // 显示默认内容
+                scriptOutputDiv.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full text-stone-500 space-y-4">
+                        <div class="w-16 h-16 bg-stone-100 rounded-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
+                        </div>
+                        <div class="text-center">
+                            <p class="font-medium mb-1">AI 正在生成脚本...</p>
+                            <p class="text-xs max-w-[200px] opacity-70">等待 AI 分析完成，将显示详细的像素级脚本拆解。</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // 显示AI分析报告
             outputDiv.innerHTML = `<div class="report-fade-in">${cleanHtml}</div>`;
             
             // 触发头部更新
@@ -988,6 +1062,8 @@
 
         function clearOutput() {
             resetMetaCard();
+            
+            // 清空AI分析报告
             document.getElementById('aiOutput').innerHTML = `
                 <div class="flex flex-col items-center justify-center h-full text-stone-500 space-y-4">
                     <div class="w-16 h-16 bg-stone-800 rounded-full flex items-center justify-center">
@@ -998,6 +1074,20 @@
                     <div class="text-center">
                         <p class="font-medium mb-1">已清空</p>
                         <p class="text-xs max-w-[200px] opacity-70">点击分析重新生成。</p>
+                    </div>
+                </div>`;
+            
+            // 清空像素级脚本拆解
+            document.getElementById('scriptOutput').innerHTML = `
+                <div class="flex flex-col items-center justify-center h-full text-stone-500 space-y-4">
+                    <div class="w-16 h-16 bg-stone-100 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        </svg>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-medium mb-1">等待 AI 分析...</p>
+                        <p class="text-xs max-w-[200px] opacity-70">点击上方“AI 视频深度拆解”按钮，生成像素级脚本拆解。</p>
                     </div>
                 </div>`;
         }
