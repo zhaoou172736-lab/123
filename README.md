@@ -603,7 +603,7 @@
                *按权重排序，选出最重要的 4-6 个标签*。
 
             【第二部分：All in AI 可视化分析报告 (HTML)】
-            生成详细的拆解报告。
+            生成详细的拆解报告，必须包含"像素级脚本拆解"模块，提供逐帧镜头分析。
 
             ⚠️【输出格式严格要求】：
             
@@ -675,6 +675,54 @@
                      <div class="absolute -left-[21px] top-1 w-3 h-3 bg-red-500 rounded-full border-2 border-stone-900"></div>
                      <div class="text-xs text-red-400 font-bold mb-1">AI ENDING</div>
                      <div class="text-sm text-stone-300">AI生成的结尾升华/CTA分析</div>
+                  </div>
+               </div>
+
+               <!-- 像素级脚本拆解 -->
+               <div class="bg-stone-800/80 p-6 rounded-xl border border-stone-700">
+                  <h3 class="text-lg font-bold text-white mb-4">📽️ 像素级脚本拆解</h3>
+                  <div class="space-y-4">
+                     <div class="bg-stone-700/50 p-4 rounded-lg border border-stone-600">
+                        <div class="text-xs text-orange-400 font-bold mb-2">00:00-00:05 开场镜头</div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                           <div class="md:col-span-1">
+                              <div class="bg-stone-900 rounded-lg p-2 aspect-video flex items-center justify-center">
+                                 <span class="text-stone-400 text-sm">AI生成的关键帧描述</span>
+                              </div>
+                           </div>
+                           <div class="md:col-span-2 space-y-2">
+                              <div>
+                                 <span class="text-xs text-stone-400 font-semibold">台词文案：</span>
+                                 <span class="text-sm text-stone-200">AI生成的台词内容</span>
+                              </div>
+                              <div>
+                                 <span class="text-xs text-stone-400 font-semibold">导演分析：</span>
+                                 <span class="text-sm text-stone-300">AI生成的拍摄手法、构图、情绪分析</span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <!-- 至少生成5个以上镜头分析 -->
+                     <div class="bg-stone-700/50 p-4 rounded-lg border border-stone-600">
+                        <div class="text-xs text-orange-400 font-bold mb-2">00:05-00:10 发展镜头</div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                           <div class="md:col-span-1">
+                              <div class="bg-stone-900 rounded-lg p-2 aspect-video flex items-center justify-center">
+                                 <span class="text-stone-400 text-sm">AI生成的关键帧描述</span>
+                              </div>
+                           </div>
+                           <div class="md:col-span-2 space-y-2">
+                              <div>
+                                 <span class="text-xs text-stone-400 font-semibold">台词文案：</span>
+                                 <span class="text-sm text-stone-200">AI生成的台词内容</span>
+                              </div>
+                              <div>
+                                 <span class="text-xs text-stone-400 font-semibold">导演分析：</span>
+                                 <span class="text-sm text-stone-300">AI生成的拍摄手法、构图、情绪分析</span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
                   </div>
                </div>
 
@@ -781,8 +829,8 @@
             // 简单清理可能存在的 markdown 标记 (以防万一)
             let cleanHtml = htmlContent.replace(/```html/g, '').replace(/```/g, '');
             
-            // 提取像素级脚本拆解内容
-            const scriptRegex = /<div[^>]*>.*?像素级脚本拆解.*?<\/div>/s;
+            // 提取像素级脚本拆解内容 - 使用更灵活的正则模式
+            const scriptRegex = /<div[^>]*>.*?[📽️|像素级脚本拆解].*?<\/div>/is;
             const scriptMatch = cleanHtml.match(scriptRegex);
             
             if (scriptMatch && scriptMatch[0]) {

@@ -6,6 +6,8 @@
     <title>AI 爆款视频拆解助手 (Powered by Gemini)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.6/dist/ffmpeg.min.js"></script>
+    <script src="https://unpkg.com/@ffmpeg/core@0.12.2/dist/ffmpeg-core.min.js"></script>
     <style>
         body {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -426,6 +428,14 @@
         let currentVideoBase64 = null;
         let currentVideoMimeType = null;
         let progressInterval = null; // 用于存储进度条定时器
+        
+        // FFmpeg State
+        const { createFFmpeg } = window.FFmpeg || window.@ffmpeg/ffmpeg;
+        const ffmpeg = createFFmpeg({
+            corePath: 'https://unpkg.com/@ffmpeg/core@0.12.2/dist/ffmpeg-core.js',
+            log: true
+        });
+        let ffmpegLoaded = false;
 
         // --- Settings Management ---
 
@@ -726,6 +736,89 @@
                 }, 500);
             }
         }
+        
+        // 🌟 新增功能：使用 FFmpeg 提取视频关键帧
+        async function extractVideoFrames(videoBase64, mimeType) {
+            const loadingText = document.getElementById('loadingText');
+            const progressBar = document.getElementById('progressBar');
+            const percentText = document.getElementById('progressPercent');
+            const stepText = document.getElementById('loadingStep');
+            
+            // 更新加载状态
+            stepText.innerText = '初始化视频处理引擎...';
+            percentText.innerText = '0%';
+            progressBar.style.width = '0%';
+            
+            // 初始化 FFmpeg（如果尚未初始化）
+            if (!ffmpegLoaded) {
+                try {
+                    stepText.innerText = '正在加载 FFmpeg 引擎...';
+                    await ffmpeg.load();
+                    ffmpegLoaded = true;
+                    percentText.innerText = '20%';
+                    progressBar.style.width = '20%';
+                } catch (error) {
+                    console.error('Failed to load FFmpeg:', error);
+                    throw new Error('FFmpeg 引擎加载失败，请检查网络连接后重试');
+                }
+            }
+            
+            // 准备视频数据
+            stepText.innerText = '准备视频数据...';
+            const videoData = new Uint8Array(atob(videoBase64).split('').map(char => char.charCodeAt(0)));
+            ffmpeg.FS('writeFile', 'input.mp4', videoData);
+            
+            percentText.innerText = '40%';
+            progressBar.style.width = '40%';
+            
+            // 提取关键帧（每2秒提取一帧）
+            stepText.innerText = '正在提取视频关键帧...';
+            try {
+                await ffmpeg.run(
+                    '-i', 'input.mp4',
+                    '-vf', 'fps=0.5,scale=640:360',
+                    '-q:v', '2',
+                    '-frames:v', '10',
+                    'output_%03d.jpg'
+                );
+            } catch (error) {
+                console.error('Failed to extract frames:', error);
+                throw new Error('视频帧提取失败');
+            }
+            
+            percentText.innerText = '70%';
+            progressBar.style.width = '70%';
+            
+            // 读取提取的帧
+            const frames = [];
+            let frameIndex = 1;
+            
+            stepText.innerText = '正在处理提取的帧...';
+            while (true) {
+                try {
+                    const fileName = `output_${frameIndex.toString().padStart(3, '0')}.jpg`;
+                    const frameData = ffmpeg.FS('readFile', fileName);
+                    const frameBase64 = btoa(String.fromCharCode.apply(null, frameData));
+                    frames.push({
+                        base64: frameBase64,
+                        mimeType: 'image/jpeg'
+                    });
+                    ffmpeg.FS('unlink', fileName); // 删除临时文件
+                    frameIndex++;
+                } catch (error) {
+                    break; // 所有帧已处理完毕
+                }
+            }
+            
+            // 清理输入文件
+            ffmpeg.FS('unlink', 'input.mp4');
+            
+            percentText.innerText = '100%';
+            progressBar.style.width = '100%';
+            
+            console.log(`提取了 ${frames.length} 帧`);
+            return frames;
+        }
 
         // 🌟 新增功能：解析并更新左侧的 Meta 分析卡片 (选题 & 标签 & 人群)
         function updateMetaAnalysis(fullText) {
@@ -836,23 +929,39 @@
 
             loadingText.innerText = loadingMsg || "Gemini 正在思考...";
             loader.classList.remove('hidden');
-            // outputDiv.innerHTML = ""; // 可以不清空，或者显示骨架屏，这里先保留原状
             
             startFakeProgress();
 
             try {
-                const url = `${baseUrl}/v1beta/models/${model}:generateContent?key=${apiKey}`;
-                const payload = {
+                // 提取视频关键帧
+                const frames = await extractVideoFrames(currentVideoBase64, currentVideoMimeType);
+                
+                if (frames.length === 0) {
+                    throw new Error("未能从视频中提取关键帧");
+                }
+                
+                // 构建请求内容
+                const contents = {
                     contents: [{
                         parts: [
-                            { text: systemPrompt },
-                            { inlineData: { mimeType: currentVideoMimeType, data: currentVideoBase64 } }
+                            { text: systemPrompt }
                         ]
                     }],
                     generationConfig: { temperature: 0.7, maxOutputTokens: 2000 }
                 };
-
-                const data = await fetchAPI(url, payload);
+                
+                // 添加所有提取的帧
+                frames.forEach(frame => {
+                    contents.contents[0].parts.push({
+                        inlineData: { 
+                            mimeType: frame.mimeType, 
+                            data: frame.base64 
+                        }
+                    });
+                });
+                
+                const url = `${baseUrl}/v1beta/models/${model}:generateContent?key=${apiKey}`;
+                const data = await fetchAPI(url, contents);
                 finishProgress();
 
                 if (data.candidates && data.candidates[0].content) {
@@ -891,24 +1000,34 @@
 
             loadingText.innerText = loadingMsg || "AI 正在分析...";
             loader.classList.remove('hidden');
-            // outputDiv.innerHTML = "";
             
             startFakeProgress();
 
             try {
+                // 提取视频关键帧
+                const frames = await extractVideoFrames(currentVideoBase64, currentVideoMimeType);
+                
+                if (frames.length === 0) {
+                    throw new Error("未能从视频中提取关键帧");
+                }
+                
+                // 构建请求消息
+                const userContent = [
+                    { type: "text", text: "Please analyze this video by examining the following key frames." }
+                ];
+                
+                // 添加所有提取的帧
+                frames.forEach(frame => {
+                    userContent.push({
+                        type: "image_url",
+                        image_url: { url: `data:${frame.mimeType};base64,${frame.base64}` }
+                    });
+                });
+                
                 const url = `${baseUrl}/chat/completions`;
                 const messages = [
                     { role: "system", content: systemPrompt },
-                    { 
-                        role: "user", 
-                        content: [
-                            { type: "text", text: "Please analyze this video file." },
-                            {
-                                type: "image_url",
-                                image_url: { url: `data:${currentVideoMimeType};base64,${currentVideoBase64}` }
-                            }
-                        ]
-                    }
+                    { role: "user", content: userContent }
                 ];
 
                 const payload = {
